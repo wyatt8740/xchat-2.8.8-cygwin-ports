@@ -1,0 +1,16 @@
+--- origsrc/xchat-2.8.8/plugins/perl/Makefile.am	2010-04-13 03:48:24.000000000 -0500
++++ src/xchat-2.8.8/plugins/perl/Makefile.am	2010-07-21 15:26:16.052043700 -0500
+@@ -12,4 +12,4 @@ libdir = $(xchatlibdir)/plugins
+ INCLUDES = $(PERL_CFLAGS) $(COMMON_CFLAGS) -I$(srcdir)/..
+ CLEANFILES = xchat.pm.h irc.pm.h
+ xchat.pm.h irc.pm.h: Xchat.pm IRC.pm
+-	perl generate_header
++	cd $(srcdir); perl generate_header
+--- origsrc/xchat-2.8.8/src/common/xchat.h	2009-08-16 04:40:16.000000000 -0500
++++ src/xchat-2.8.8/src/common/xchat.h	2010-07-21 15:26:16.085045600 -0500
+@@ -1,4 +1,4 @@
+-#include "../../config.h"
++#include "config.h"
+ 
+ #include <glib/gslist.h>
+ #include <glib/glist.h>

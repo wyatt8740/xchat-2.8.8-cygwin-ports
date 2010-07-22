@@ -1,0 +1,53 @@
+--- origsrc/xchat-2.8.8/src/common/outbound.c	2010-05-29 21:14:41.000000000 -0500
++++ src/xchat-2.8.8/src/common/outbound.c	2010-07-21 15:26:16.076045100 -0500
+@@ -2455,7 +2455,7 @@ cmd_load (struct session *sess, char *tb
+ 
+ #ifdef USE_PLUGIN
+ 	len = strlen (word[2]);
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ 	if (len > 4 && strcasecmp (".dll", word[2] + len - 4) == 0)
+ #else
+ #if defined(__hpux)
+@@ -3204,7 +3204,7 @@ cmd_unload (struct session *sess, char *
+ 	int len, by_file = FALSE;
+ 
+ 	len = strlen (word[2]);
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ 	if (len > 4 && strcasecmp (word[2] + len - 4, ".dll") == 0)
+ #else
+ #if defined(__hpux)
+--- origsrc/xchat-2.8.8/src/common/plugin.c	2009-08-16 04:40:16.000000000 -0500
++++ src/xchat-2.8.8/src/common/plugin.c	2010-07-21 15:26:16.080045300 -0500
+@@ -435,15 +435,16 @@ plugin_auto_load (session *sess)
+ #ifdef WIN32
+ 	for_files ("./plugins", "*.dll", plugin_auto_load_cb);
+ 	for_files (get_xdir_fs (), "*.dll", plugin_auto_load_cb);
+-#else
+-#if defined(__hpux)
++#elif defined(__CYGWIN__)
++	for_files (XCHATLIBDIR"/plugins", "*.dll", plugin_auto_load_cb);
++	for_files (get_xdir_fs (), "*.dll", plugin_auto_load_cb);
++#elif defined(__hpux)
+ 	for_files (XCHATLIBDIR"/plugins", "*.sl", plugin_auto_load_cb);
+ 	for_files (get_xdir_fs (), "*.sl", plugin_auto_load_cb);
+ #else
+ 	for_files (XCHATLIBDIR"/plugins", "*.so", plugin_auto_load_cb);
+ 	for_files (get_xdir_fs (), "*.so", plugin_auto_load_cb);
+ #endif
+-#endif
+ }
+ 
+ #endif
+--- origsrc/xchat-2.8.8/src/fe-gtk/plugingui.c	2010-05-15 22:16:21.000000000 -0500
++++ src/xchat-2.8.8/src/fe-gtk/plugingui.c	2010-07-21 15:26:16.094046100 -0500
+@@ -170,7 +170,7 @@ plugingui_unload (GtkWidget * wid, gpoin
+ 		return;
+ 
+ 	len = strlen (file);
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ 	if (len > 4 && strcasecmp (file + len - 4, ".dll") == 0)
+ #else
+ #if defined(__hpux)

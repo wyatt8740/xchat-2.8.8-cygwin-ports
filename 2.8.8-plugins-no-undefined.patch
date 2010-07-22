@@ -1,0 +1,58 @@
+--- origsrc/xchat-2.8.8/plugins/perl/Makefile.am	2010-04-13 03:48:24.000000000 -0500
++++ src/xchat-2.8.8/plugins/perl/Makefile.am	2010-07-21 15:26:16.052043700 -0500
+@@ -5,8 +5,8 @@ libdir = $(xchatlibdir)/plugins
+ 
+ lib_LTLIBRARIES = perl.la
+ perl_la_SOURCES = perl.c
+-perl_la_LDFLAGS = -avoid-version -module 
+-perl_la_LIBADD = $(PERL_LDFLAGS)
++perl_la_LDFLAGS = -avoid-version -module -no-undefined
++perl_la_LIBADD = $(PERL_LDFLAGS) $(COMMON_LIBS)
+ BUILT_SOURCES = xchat.pm.h irc.pm.h
+ #CFLAGS = @CFLAGS@ -Wno-unused
+ INCLUDES = $(PERL_CFLAGS) $(COMMON_CFLAGS) -I$(srcdir)/..
+--- origsrc/xchat-2.8.8/plugins/python/Makefile.am	2010-05-29 22:40:27.000000000 -0500
++++ src/xchat-2.8.8/plugins/python/Makefile.am	2010-07-21 15:26:16.062044300 -0500
+@@ -4,7 +4,7 @@ libdir = $(xchatlibdir)/plugins
+ 
+ lib_LTLIBRARIES = python.la
+ python_la_SOURCES = python.c
+-python_la_LDFLAGS = -avoid-version -module 
+-python_la_LIBADD = $(PY_LIBS)
++python_la_LDFLAGS = -avoid-version -module -no-undefined
++python_la_LIBADD = $(PY_LIBS) $(COMMON_LIBS)
+ INCLUDES = $(PY_CFLAGS) $(COMMON_CFLAGS) -I$(srcdir)/..
+ 
+--- origsrc/xchat-2.8.8/plugins/tcl/Makefile.am	2010-05-29 22:40:48.000000000 -0500
++++ src/xchat-2.8.8/plugins/tcl/Makefile.am	2010-07-21 15:26:16.066044500 -0500
+@@ -5,6 +5,6 @@ libdir = $(xchatlibdir)/plugins
+ 
+ lib_LTLIBRARIES = tcl.la
+ tcl_la_SOURCES = tclplugin.c
+-tcl_la_LDFLAGS = -avoid-version -module 
+-tcl_la_LIBADD = $(TCL_LIBS)
++tcl_la_LDFLAGS = -avoid-version -module -no-undefined
++tcl_la_LIBADD = $(TCL_LIBS) $(COMMON_LIBS)
+ INCLUDES = $(TCL_CFLAGS) $(COMMON_CFLAGS) -I$(srcdir)/..
+--- origsrc/xchat-2.8.8/plugins/xchat-plugin.h	2009-08-16 04:40:15.000000000 -0500
++++ src/xchat-2.8.8/plugins/xchat-plugin.h	2010-07-21 15:34:42.833030000 -0500
+@@ -292,7 +292,7 @@ void
+ xchat_free (xchat_plugin *ph,
+ 	    void *ptr);
+ 
+-#if !defined(PLUGIN_C) && defined(WIN32)
++#if !defined(PLUGIN_C) && (defined(WIN32) || defined(__CYGWIN__))
+ #ifndef XCHAT_PLUGIN_HANDLE
+ #define XCHAT_PLUGIN_HANDLE (ph)
+ #endif
+--- origsrc/xchat-2.8.8/plugins/xdcc/Makefile.am	2009-08-16 04:40:14.000000000 -0500
++++ src/xchat-2.8.8/plugins/xdcc/Makefile.am	2010-07-21 15:26:16.070044800 -0500
+@@ -2,6 +2,7 @@ libdir = $(xchatdir)/plugins
+ 
+ lib_LTLIBRARIES = xdcc.la
+ xdcc_la_SOURCES = xdcc.c
+-xdcc_la_LDFLAGS = -avoid-version -module 
++xdcc_la_LDFLAGS = -avoid-version -module -no-undefined
++xdcc_la_LIBADD = $(COMMON_LIBS)
+ INCLUDES = $(COMMON_CFLAGS) -I$(srcdir)/..
+ 
