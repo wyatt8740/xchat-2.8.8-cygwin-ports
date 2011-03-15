@@ -4,16 +4,18 @@ DESCRIPTION="GTK+ IRC client"
 HOMEPAGE="http://xchat.org/"
 SRC_URI="http://xchat.org/files/source/${PV[1]}.${PV[2]}/${P}.tar.xz"
 PATCH_URI="
-	mirror://debpatch/xchat/2.8.8-1/10_fix_unchecked_mallocs.patch
-	mirror://debpatch/xchat/2.8.8-1/20_url_pattern.patch
-	mirror://debpatch/xchat/2.8.8-1/43_french.patch
-	mirror://debpatch/xchat/2.8.8-1/46_CVE-2009-0315.patch
-	mirror://debpatch/xchat/2.8.8-1/47_galician.patch
-	mirror://debpatch/xchat/2.8.8-1/48_spanish.patch
-	mirror://debpatch/xchat/2.8.8-1/51_freenode_ircd-seven.patch
-	mirror://debpatch/xchat/2.8.8-1/52_fix_implicit_declaration.patch
+	mirror://debpatch/xchat/2.8.8-3/10_fix_unchecked_mallocs.patch
+	mirror://debpatch/xchat/2.8.8-3/20_url_pattern.patch
+	mirror://debpatch/xchat/2.8.8-3/43_french.patch
+	mirror://debpatch/xchat/2.8.8-3/45_save_ignore.patch
+	mirror://debpatch/xchat/2.8.8-3/46_CVE-2009-0315.patch
+	mirror://debpatch/xchat/2.8.8-3/47_galician.patch
+	mirror://debpatch/xchat/2.8.8-3/48_spanish.patch
+	mirror://debpatch/xchat/2.8.8-3/51_freenode_ircd-seven.patch
+	mirror://debpatch/xchat/2.8.8-3/52_fix_implicit_declaration.patch
+	mirror://debpatch/xchat/2.8.8-3/53_russian.patch
 	2.8.8-gettext-version.patch
-	2.8.8-mmx-cygwin.patch
+	2.8.8-cygwin.patch
 	2.8.8-perl-xs.patch
 	2.8.8-plugins-dll.patch
 	2.8.8-plugins-no-undefined.patch

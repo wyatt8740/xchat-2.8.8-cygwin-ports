@@ -1,0 +1,87 @@
+--- origsrc/xchat-2.8.8/src/common/util.c	2009-08-16 04:40:16.000000000 -0500
++++ src/xchat-2.8.8/src/common/util.c	2011-03-15 17:53:25.449229200 -0500
+@@ -25,9 +25,11 @@
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
++#if defined (WIN32) || defined (__CYGWIN__)
++#include <process.h>
++#endif
+ #ifdef WIN32
+ #include <sys/timeb.h>
+-#include <process.h>
+ #else
+ #include <sys/types.h>
+ #include <pwd.h>
+@@ -510,13 +512,13 @@ strip_hidden_attribute (char *src, char
+ 	return len;
+ }
+ 
+-#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__)
++#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__) || defined (__CYGWIN__)
+ 
+ static void
+ get_cpu_info (double *mhz, int *cpus)
+ {
+ 
+-#ifdef USING_LINUX
++#if defined (USING_LINUX) || defined (__CYGWIN__)
+ 
+ 	char buf[256];
+ 	int fh;
+@@ -656,7 +658,7 @@ get_cpu_str (void)
+ char *
+ get_cpu_str (void)
+ {
+-#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__)
++#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__) || defined (__CYGWIN__)
+ 	double mhz;
+ #endif
+ 	int cpus = 1;
+@@ -670,7 +672,7 @@ get_cpu_str (void)
+ 
+ 	uname (&un);
+ 
+-#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__)
++#if defined (USING_LINUX) || defined (USING_FREEBSD) || defined (__APPLE__) || defined (__CYGWIN__)
+ 	get_cpu_info (&mhz, &cpus);
+ 	if (mhz)
+ 	{
+@@ -1252,7 +1254,7 @@ util_exec (const char *cmd)
+ 	if (my_poptParseArgvString (cmd, &argc, &argv) != 0)
+ 		return -1;
+ 
+-#ifndef WIN32
++#if !defined (WIN32) && !defined (__CYGWIN__)
+ 	pid = fork ();
+ 	if (pid == -1)
+ 		return -1;
+@@ -1279,7 +1281,7 @@ util_execv (char * const argv[])
+ {
+ 	int pid, fd;
+ 
+-#ifndef WIN32
++#if !defined (WIN32) && !defined (__CYGWIN__)
+ 	pid = fork ();
+ 	if (pid == -1)
+ 		return -1;
+--- origsrc/xchat-2.8.8/src/fe-gtk/mmx_cmod.S	2009-08-16 04:40:18.000000000 -0500
++++ src/xchat-2.8.8/src/fe-gtk/mmx_cmod.S	2010-07-21 15:26:16.089045900 -0500
+@@ -35,7 +35,7 @@
+ #define gm	28(%ebp)
+ #define bm	32(%ebp)
+ 
+-#ifdef UNDERSCORE_SYMBOLS /* need this to link with msvc */
++#if defined(_WIN32) || defined(__CYGWIN__)
+ #define SHADE_XIMAGE_15 _shade_ximage_15_mmx
+ #define SHADE_XIMAGE_16 _shade_ximage_16_mmx
+ #define SHADE_XIMAGE_32 _shade_ximage_32_mmx
+@@ -524,7 +524,7 @@ HAVE_MMX:
+ 	popl	%ebx
+ 	ret
+ 
+-#if defined(__GNUC__) && !defined(_WIN32)
++#if defined(__GNUC__) && !defined(_WIN32) && !defined(__CYGWIN__)
+ .section .note.GNU-stack, "", @progbits
+ .previous
+ #endif
