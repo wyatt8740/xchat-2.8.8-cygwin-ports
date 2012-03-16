@@ -1,5 +1,5 @@
 category: Net
-requires: libdbus-glib_1_2 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libgtkspell0 libintl8 libopenssl098 libpango1.0_0 libX11_6 libXext6
+requires: libdbus-glib_1_2 libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libgtkspell0 libintl8 libopenssl100 libpango1.0_0 libX11_6 libXext6
 sdesc: "GTK+ IRC client"
 ldesc: "XChat is an IRC chat program for both Linux and Windows. It 
 allows you to join multiple IRC channels (chat rooms) at the same time, 
