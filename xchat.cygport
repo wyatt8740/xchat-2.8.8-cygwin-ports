@@ -1,0 +1,55 @@
+mirror_debpatch="http://patch-tracker.debian.org/patch/series/dl"
+
+NAME="xchat"
+VERSION=2.8.8
+RELEASE=4
+CATEGORY="Net"
+SUMMARY="GTK+ IRC client"
+DESCRIPTION="XChat is an IRC chat program for both Linux and Windows. It allows
+you to join multiple IRC channels (chat rooms) at the same time, talk publicly,
+private one-on-one conversations etc. Even file transfers are possible."
+HOMEPAGE="http://xchat.org/"
+SRC_URI="http://xchat.org/files/source/${PV[1]}.${PV[2]}/${P}.tar.xz"
+PATCH_URI="
+	mirror://debpatch/xchat/2.8.8-7.1/10_fix_unchecked_mallocs.patch
+	mirror://debpatch/xchat/2.8.8-7.1/20_url_pattern.patch
+	mirror://debpatch/xchat/2.8.8-7.1/43_french.patch
+	mirror://debpatch/xchat/2.8.8-7.1/45_save_ignore.patch
+	mirror://debpatch/xchat/2.8.8-7.1/46_CVE-2009-0315.patch
+	mirror://debpatch/xchat/2.8.8-7.1/47_galician.patch
+	mirror://debpatch/xchat/2.8.8-7.1/48_spanish.patch
+	mirror://debpatch/xchat/2.8.8-7.1/51_freenode_ircd-seven.patch
+	mirror://debpatch/xchat/2.8.8-7.1/52_fix_implicit_declaration.patch
+	mirror://debpatch/xchat/2.8.8-7.1/53_russian.patch
+	mirror://debpatch/xchat/2.8.8-7.1/54_glib_single_include.patch
+	2.8.8-gettext-version.patch
+	2.8.8-cygwin.patch
+	2.8.8-libnotify.patch
+	2.8.8-perl-xs.patch
+	2.8.8-plugins-dll.patch
+	2.8.8-plugins-no-undefined.patch
+	2.8.8-vpath.patch
+"
+
+DIFF_EXCLUDES="inline_pngs.h *.pm.h"
+
+PKG_NAMES="xchat xchat-python xchat-tcl" # xchat-perl
+xchat_CONTENTS="etc/ usr/bin/ usr/include/ usr/share/"
+xchat_perl_SUMMARY="${SUMMARY} (Perl scripting plugin)"
+xchat_perl_CONTENTS="usr/lib/xchat/plugins/perl.*"
+xchat_python_SUMMARY="${SUMMARY} (Python scripting plugin)"
+xchat_python_CONTENTS="usr/lib/xchat/plugins/python.*"
+xchat_tcl_SUMMARY="${SUMMARY} (Tcl scripting plugin)"
+xchat_tcl_CONTENTS="usr/lib/xchat/plugins/tcl.*"
+
+# perl: xchat crashes as soon as perl script is loaded
+CYGCONF_ARGS="--enable-ipv6 --enable-shm --enable-spell=gtkspell --disable-perl"
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	doinclude ${S}/plugins/xchat-plugin.h
+}
+
+KEEP_LA_FILES="none"

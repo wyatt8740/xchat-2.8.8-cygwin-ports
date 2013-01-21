@@ -1,0 +1,32 @@
+--- origsrc/xchat-2.8.8/src/fe-gtk/plugin-tray.c	2010-05-15 20:37:01.000000000 -0500
++++ src/xchat-2.8.8/src/fe-gtk/plugin-tray.c	2013-01-21 04:12:37.180065400 -0600
+@@ -125,7 +125,6 @@ static void *nn_mod = NULL;
+ /* prototypes */
+ static gboolean (*nn_init) (char *);
+ static void (*nn_uninit) (void);
+-static void *(*nn_new_with_status_icon) (const gchar *summary, const gchar *message, const gchar *icon, GtkStatusIcon *status_icon);
+ static void *(*nn_new) (const gchar *summary, const gchar *message, const gchar *icon, GtkWidget *attach);
+ static gboolean (*nn_show) (void *noti, GError **error);
+ static void (*nn_set_timeout) (void *noti, gint timeout);
+@@ -148,10 +147,10 @@ libnotify_notify_new (const char *title,
+ 
+ 	if (!nn_mod)
+ 	{
+-		nn_mod = g_module_open ("libnotify", G_MODULE_BIND_LAZY);
++		nn_mod = g_module_open ("cygnotify-4.dll", G_MODULE_BIND_LAZY);
+ 		if (!nn_mod)
+ 		{
+-			nn_mod = g_module_open ("libnotify.so.1", G_MODULE_BIND_LAZY);
++			nn_mod = g_module_open ("cygmatenotify-1.dll", G_MODULE_BIND_LAZY);
+ 			if (!nn_mod)
+ 				return FALSE;
+ 		}
+@@ -160,8 +159,6 @@ libnotify_notify_new (const char *title,
+ 			goto bad;
+ 		if (!g_module_symbol (nn_mod, "notify_uninit", (gpointer)&nn_uninit))
+ 			goto bad;
+-		if (!g_module_symbol (nn_mod, "notify_notification_new_with_status_icon", (gpointer)&nn_new_with_status_icon))
+-			goto bad;
+ 		if (!g_module_symbol (nn_mod, "notify_notification_new", (gpointer)&nn_new))
+ 			goto bad;
+ 		if (!g_module_symbol (nn_mod, "notify_notification_show", (gpointer)&nn_show))
